@@ -2,8 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
+use Illuminate\Support\Facades\DB;
+/* 
+|----------------------------- ---------------------------------------------
 | Web Rasdfasdfoutes
 |--------------------------------------------------------------------------
 |
@@ -13,10 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+Route::get('/users', 'UserController@index');
+
+
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/home', function () {
-    return view('home');
-});
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
