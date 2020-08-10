@@ -1,9 +1,10 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 use Illuminate\Support\Facades\DB;
-/* 
+/*
 |----------------------------- ---------------------------------------------
 | Web Rasdfasdfoutes
 |--------------------------------------------------------------------------
@@ -14,18 +15,24 @@ use Illuminate\Support\Facades\DB;
 |
 */
 
+Route::get('/lang/{lang}', 'UserController@language');
 
-Route::get('/users', 'UserController@index');
+
+Route::group(['middleware' => 'Lang'], function () {
+
+    Route::get('/users', 'UserController@index');
 
 
-Route::get('/', function () {
-    return view('welcome');
+    Route::get('/', function () {
+        return view('welcome');
+    });
+
+    Auth::routes();
+
+    Route::get('/home', 'HomeController@index')->name('home');
+
+    Route::get('/editprofile', 'UserController@vieweditprofile')->name('editprofile');
+
+    Route::post('/editprofile', 'UserController@editprofile')->name('posteditprofile');
+
 });
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
-Route::get('/editprofile', 'UserController@vieweditprofile')->name('editprofile');
-
-Route::post('/editprofile', 'UserController@editprofile')->name('posteditprofile');

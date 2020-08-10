@@ -14,7 +14,7 @@ class UserController extends Controller
     {
         return view('editprofile');
     }
-    
+
     public function editprofile(Request $request)
     {
         $validatedData = $request->validate([
@@ -25,5 +25,33 @@ class UserController extends Controller
         $email = $request->email;
         User::where('id',auth()->user()->id)->update(['name'=>$name,'email'=>$email]);
         return redirect()->route('home')->with('status','profile has been edited successfully.');
+    }
+    public function language($lang) {
+        if (in_array($lang,['ar','en'])) {
+            if (auth()->user()) {
+                $user = auth()->user();
+                $user->lang = $lang;
+                $user->save();
+            }else{
+                if(session()->has('lang')){
+                    session()->forget('lang');
+                }
+                session()->put('lang',$lang);
+            }
+        }else {
+            $deflang = 'ar';
+            if (auth()->user()) {
+                $user = auth()->user();
+                $user->lang = $deflang;
+                $user->save();
+            } else {
+                if (session()->has('lang')) {
+                    session()->forget('lang');
+                }
+                session()->put('lang', $deflang);
+            }
+
+        }
+        return back()->withinput();
     }
 }
