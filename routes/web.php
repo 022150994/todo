@@ -26,10 +26,6 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Auth::routes();
+Route::get('/editprofile', 'UserController@vieweditprofile')->name('editprofile');
 
-Route::get('/home', 'HomeController@index')->name('home');
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
+Route::post('/editprofile', 'UserController@editprofile')->name('posteditprofile');
