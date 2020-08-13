@@ -40,5 +40,22 @@ class User extends Authenticatable
     // public function setPasswordAttribute($password){
     //     $this->attributes['password'] = bcrypt($password);
     // }
-    
+
+    public function messages()
+    {
+        return [
+            'name.required' => 'fuck you',
+            'avatar.image' => 'fuck you sooo hard',
+        ];
+    }
+
+    // public function messages(){
+    //     return [
+    //         'avatar.image' =>trans('main.avataruploaderror')
+    //     ];
+    // }
+    public function todos()
+    {
+        return $this->hasMany('App/Todo', 'user_id', 'id');
+    }
 }

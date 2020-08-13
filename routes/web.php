@@ -15,24 +15,20 @@ use Illuminate\Support\Facades\DB;
 |
 */
 
-Route::get('/lang/{lang}', 'UserController@language');
+Route::get('/lang/{lang}', 'LanguageController@language');
 
+
+Auth::routes();
 
 Route::group(['middleware' => 'Lang'], function () {
-
-    Route::get('/users', 'UserController@index');
-
-
+    Auth::routes();
     Route::get('/', function () {
         return view('welcome');
     });
-
-    Auth::routes();
-
+    Route::get('/users', 'UserController@index');
     Route::get('/home', 'HomeController@index')->name('home');
-
     Route::get('/editprofile', 'UserController@vieweditprofile')->name('editprofile');
-
     Route::post('/editprofile', 'UserController@editprofile')->name('posteditprofile');
+
 
 });

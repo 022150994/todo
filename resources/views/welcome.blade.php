@@ -6,6 +6,7 @@
 
         <title>Laravel</title>
         <!-- Fonts -->
+        <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
 
         <!-- Styles -->
@@ -13,7 +14,6 @@
             html, body {
                 background-color: #fff;
                 color: #636b6f;
-                font-family: 'Nunito', sans-serif;
                 font-weight: 200;
                 height: 100vh;
                 margin: 0;
@@ -67,7 +67,7 @@
             @if (Route::has('login'))
                 <div class="top-right links">
                     @auth
-                        <a href="{{ url('/home') }}">Home</a>
+                        <a href="{{ url('/home') }}">{{ trans('main.Home') }}</a>
                     @else
                         <a href="{{ route('login') }}">Login</a>
 
@@ -80,7 +80,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    {{ trans('main.welcome') }}
                 </div>
 
                 <div class="links">

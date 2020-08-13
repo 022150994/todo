@@ -3,6 +3,11 @@
 namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use phpDocumentor\Reflection\Types\Null_;
+
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -17,41 +22,30 @@ class UserController extends Controller
 
     public function editprofile(Request $request)
     {
-        $validatedData = $request->validate([
+        $messages = [
+            'avatar.image' =>trans('main.avataruploaderror')
+        ];
+        Validator::make($request->all(), [
             'name' => 'required|max:255',
             'email' => 'required|email',
-        ]);
-        $name = $request->name;
-        $email = $request->email;
-        User::where('id',auth()->user()->id)->update(['name'=>$name,'email'=>$email]);
-        return redirect()->route('home')->with('status','profile has been edited successfully.');
-    }
-    public function language($lang) {
-        if (in_array($lang,['ar','en'])) {
-            if (auth()->user()) {
-                $user = auth()->user();
-                $user->lang = $lang;
-                $user->save();
-            }else{
-                if(session()->has('lang')){
-                    session()->forget('lang');
-                }
-                session()->put('lang',$lang);
+            'avatar' => 'image'
+        ],$messages)->validate();
+        $baseurl = '/public/';
+        if($request->hasFile('avatar')) {
+            if (auth()->user()->avatar != 'images/anonymous-user.png') {
+                Storage::delete($baseurl . auth()->user()->avatar);
             }
-        }else {
-            $deflang = 'ar';
-            if (auth()->user()) {
-                $user = auth()->user();
-                $user->lang = $deflang;
-                $user->save();
-            } else {
-                if (session()->has('lang')) {
-                    session()->forget('lang');
-                }
-                session()->put('lang', $deflang);
+            $avatar = $request->avatar->store('images','public');
+        }else{
+            if(auth()->user()->avatar != 'images/anonymous-user.png'){
+                Storage::delete($baseurl . auth()->user()->avatar);
             }
+            $avatar = 'images/anonymous-user.png';
 
         }
-        return back()->withinput();
+        $name = $request->name;
+        $email = $request->email;
+        User::where('id',auth()->user()->id)->update(['name'=>$name,'email'=>$email,'avatar'=>$avatar]);
+        return redirect()->route('home')->with('status','profile has been edited successfully.');
     }
 }
