@@ -69,28 +69,3 @@
 </div>
 
 @endsection
-
-@section("scripts")+
-    <script type="text/javascript">
-        function sah1(el) {
-        try {
-        el.disabled = el.disabled ? false : true;
-        } catch (E) {}
-        if (el.childNodes && el.childNodes.length > 0) {
-        for (var x = 0; x < el.childNodes.length; x++) { sah1(el.childNodes[x]); } } }
-        
-        new Vue({
-            el:'#app1',
-            data:{
-                check:'off',
-            },
-            methods:{
-                disableimagecontainer:function(){
-                    x = 'imagecontainer';
-                    el = document.getElementById(x);
-                    sah1(el);
-                }
-            }
-        });
-    </script>
-@endsection
